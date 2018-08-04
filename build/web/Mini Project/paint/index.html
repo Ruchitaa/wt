@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+<title>SURPRISES INSIDE</title>
+<link rel="stylesheet" type="text/css" href="styles/styles.css" />
+<link rel="stylesheet" type="text/css" href="styles/popup_style.css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="popup_effect.js"></script>
+</head>
+<body>
+<div id="wrapper">
+	<div id="sidebar_left">
+		<div id="menu_left_container">
+		</div>
+		<div style="clear:both;"></div>
+		<div id="main_color_container">
+			<input title="Click to change color" type="color" class="color_area" id="main_color" value="#0000ff" onchange="GUI.set_color(this);" />
+			<div style="display:none;" id="main_color_alt" onclick="GUI.toggle_color_select();"></div>
+		</div>
+		<div class="block" id="all_colors"></div>
+		
+		<div class="block" id="mouse_info">
+			<span class="trn mouse_info_title">Size:</span>
+			<span id="mouse_info_size"></span><br />
+			
+			<span style="font-size:10px;" class="trn mouse_info_title">Mouse:</span>
+			<span id="mouse_info_mouse"></span><br />
+			
+			<div style="display:none;" id="mouse_info_selected">
+				<br />
+				<span class="mouse_info_title">XY:</span>
+				<span id="mouse_info_xy"></span><br />
+
+				<span class="trn mouse_info_title">Area:</span>
+				<span id="mouse_info_area"></span><br />
+			</div>
+		</div>
+		<div class="block" id="action_attributes"></div>
+	</div>
+	<div id="canvas_wrapper">
+		<canvas style="width:1280px;height:720px;" id="canvas_back"><div class="trn error">Your browser does not support canvas or JavaScript is not enabled.</div></canvas>
+		<div id="canvas_more"></div>
+		<canvas style="width:1280px;height:720px;" id="canvas_front"></canvas>
+		<canvas style="width:1280px;height:720px;" id="canvas_grid"></canvas>
+
+		<div id="resize-w"></div>
+		<div id="resize-h"></div>
+		<div id="resize-wh"></div>
+	</div>
+	<div id="sidebar_right">
+		<div id="preview">
+			<canvas id="canvas_preview"></canvas>
+			<div style="margin-top:105px;padding-left:5px;">
+				<input title="Zoom out" onclick="GUI.zoom(-1, true);" style="width:25px;" class="layer_add" type="button" value="-" />
+				<input title="Reset zoom level" onclick="GUI.zoom(100, true);" class="layer_add" id="zoom_nr" type="button" value="100%" />
+				<input title="Zoom in" onclick="GUI.zoom(+1, true);" style="width:25px;" class="layer_add" type="button" value="+" />
+				<input title="Fit" onclick="GUI.zoom_auto();" class="layer_add" type="button" value="Fit" />
+
+				<input style="width:95%;margin-top:5px;" id="zoom_range" type="range" value="100" min="50" max="1000" step="50" oninput="GUI.zoom(this.value, true);" /> 
+			</div>
+		</div>
+		<div id="layers_base">
+			<b class="trn">Layers</b> <a title="Add new layer" class="layer_add" onclick="EDIT.save_state();LAYER.layer_add();return false;" href="#">+</a>
+			<a title="Move down" onclick="EDIT.save_state();LAYER.move_layer('down');return false;" class="layers_arrow" href="#">&darr;</a>
+			<a title="Move up" onclick="EDIT.save_state();LAYER.move_layer('up');return false;" class="layers_arrow" href="#">&uarr;</a>
+			<div style="margin-top:5px;" id="layers"></div>
+		</div>
+	</div>
+</div>
+<div id="mobile_menu">
+	<a class="left_mobile_menu" onclick="GUI.toggle('#sidebar_left');return false;" href="#"></a>
+	<a class="right_mobile_menu" onclick="GUI.toggle('#sidebar_right');return false;" href="#"></a>
+</div>
+<div id="main_menu" class="ddsmoothmenu">
+	<ul>
+			<li><a class="trn" onclick="call_menu(FILE, 'file_new');" href="#">New</a></li>
+			<li><a class="trn" onclick="call_menu(FILE, 'file_open');" href="#">Choose your own image</a></li>
+			<li>
+				<a class="trn"  href="#">Choose from our sample images</a>
+				<ul>
+				<li><a class="btn" data-popup-open="popup-1" href="#">birthday cards</a></li>
+				<li><a class="btn" data-popup-open="popup-2" href="#">wedding cards</a></li>
+				<li><a class="btn" data-popup-open="popup-3" href="#">Gratitude Cards</a></li>
+				<li><a class="btn" data-popup-open="popup-4" href="#">Valentine Cards</a></li>
+				<li><a class="btn" data-popup-open="popup-5" href="#">Special Day Cards</a></li>
+				<li><a class="btn" data-popup-open="popup-6" href="#">Festival Cards</a></li>			
+				</ul>
+			</li>
+	
+			<li><a class="trn" onclick="call_menu(TOOLS, 'tools_borders');" href="#">Borders</a></li>
+			<li><a class="trn" onclick="call_menu(EDIT, 'edit_undo');" href="#">Undo</a></li>					
+			<li><a class="trn" onclick="call_menu(FILE, 'file_save');" href="#">Save</a></li>
+			
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+	</ul>
+</div>
+
+
+<div class="popup" data-popup="popup-1">
+    <div class="popup-inner">
+    <a class="trn dots" data-popup-close="popup-1" onclick="call_menu(FILE, 'file_b1');" href="#"><img src="img/b1.jpg" alt="first image" width="200" height="200"/></a>
+  			 <a class="trn dots" data-popup-close="popup-1" onclick="call_menu(FILE, 'file_b2');" href="#"><img src="img/b2.jpg" alt="second image" width="200" height="200"/></a>
+  			  <a class="trn dots" data-popup-close="popup-1" onclick="call_menu(FILE, 'file_b3');" href="#"><img src="img/b3.jpg" alt="second image" width="200" height="200"/></a>
+  			   <a class="trn dots" data-popup-close="popup-1" onclick="call_menu(FILE, 'file_b4');" href="#"><img src="img/b4.jpg" alt="second image" width="200" height="200"/></a>
+  			    <a class="trn dots" data-popup-close="popup-1" onclick="call_menu(FILE, 'file_b5');" href="#"><img src="img/b5.jpg" alt="second image" width="200" height="200"/></a>
+  			     <a class="trn dots" data-popup-close="popup-1" onclick="call_menu(FILE, 'file_b6');" href="#"><img src="img/b6.jpg" alt="second image" width="200" height="200"/></a>
+     </p>
+        <a class="popup-close" data-popup-close="popup-1" href="#">x</a>
+    </div>
+</div>
+<div class="popup" data-popup="popup-2">
+    <div class="popup-inner">
+    <a class="trn dots"  data-popup-close="popup-2" onclick="call_menu(FILE, 'file_w1');" href="#"><img src="img/w1.jpg" alt="first image" width="200" height=200"/></a>
+  			 <a class="trn dots"  data-popup-close="popup-2" onclick="call_menu(FILE, 'file_w2');" href="#"><img src="img/w2.jpg" alt="second image" width="200" height="200"/></a>
+  			  <a class="trn dots" data-popup-close="popup-2" onclick="call_menu(FILE, 'file_w3');" href="#"><img src="img/w3.jpg" alt="second image" width="200" height="200"/></a>
+  			   <a class="trn dots" data-popup-close="popup-2" onclick="call_menu(FILE, 'file_w4');" href="#"><img src="img/w4.jpg" alt="second image" width="200" height="200"/></a>
+  			    <a class="trn dots" data-popup-close="popup-2" onclick="call_menu(FILE, 'file_w5');" href="#"><img src="img/w5.jpg" alt="second image" width="200" height="200"/></a>
+  			     <a class="trn dots" data-popup-close="popup-2" onclick="call_menu(FILE, 'file_w6');" href="#"><img src="img/w6.jpg" alt="second image" width="200" height="200"/></a>
+  			     </p>
+        <a class="popup-close" data-popup-close="popup-2" href="#">x</a>
+    </div>
+</div>
+<div class="popup" data-popup="popup-3">
+    <div class="popup-inner">
+    <a class="trn dots"  data-popup-close="popup-3" onclick="call_menu(FILE, 'file_g1');" href="#"><img src="img/g1.jpg" alt="first image" width="200" height="200"/></a>
+  			 <a class="trn dots"  data-popup-close="popup-3" onclick="call_menu(FILE, 'file_g2');" href="#"><img src="img/g2.jpg" alt="second image" width="200" height="200"/></a>
+  			 <a class="trn dots"  data-popup-close="popup-3" onclick="call_menu(FILE, 'file_g6');" href="#"><img src="img/g6.jpg" alt="second image" width="200" height="200"/></a>
+  			 <a class="trn dots"  data-popup-close="popup-3" onclick="call_menu(FILE, 'file_g3');" href="#"><img src="img/g3.jpg" alt="second image" width="200" height="200"/></a>
+  			 <a class="trn dots"  data-popup-close="popup-3" onclick="call_menu(FILE, 'file_g4');" href="#"><img src="img/g4.jpg" alt="second image" width="200" height="200"/></a>
+  			 <a class="trn dots"  data-popup-close="popup-3" onclick="call_menu(FILE, 'file_g5');" href="#"><img src="img/g5.jpg" alt="second image" width="200" height="200"/></a>
+     </p>
+        <a class="popup-close" data-popup-close="popup-3" href="#">x</a>
+    </div>
+</div>
+
+<div class="popup" data-popup="popup-4">
+    <div class="popup-inner">
+    <a class="trn dots"  data-popup-close="popup-4" onclick="call_menu(FILE, 'file_v1');" href="#"><img src="img/v1.jpg" alt="first image" width="200" height="200"/></a>
+  			 <a class="trn dots"  data-popup-close="popup-4" onclick="call_menu(FILE, 'file_v2');" href="#"><img src="img/v2.jpg" alt="second image" width="200" height="200"/></a>
+  			  <a class="trn dots"  data-popup-close="popup-4" onclick="call_menu(FILE, 'file_v3');" href="#"><img src="img/v3.jpg" alt="second image" width="200" height="200"/></a>
+  			   <a class="trn dots"  data-popup-close="popup-4" onclick="call_menu(FILE, 'file_v4');" href="#"><img src="img/v4.jpg" alt="second image" width="200" height="200"/></a>
+  			    <a class="trn dots"  data-popup-close="popup-4" onclick="call_menu(FILE, 'file_v5');" href="#"><img src="img/v5.jpg" alt="second image" width="200" height="200"/></a>
+  			     <a class="trn dots"  data-popup-close="popup-4" onclick="call_menu(FILE, 'file_v6');" href="#"><img src="img/v6.jpg" alt="second image" width="200" height="200"/></a>
+      </p>
+        <a class="popup-close" data-popup-close="popup-4" href="#">x</a>
+    </div>
+</div>
+
+<div class="popup" data-popup="popup-5">
+    <div class="popup-inner">
+    <a class="trn dots"  data-popup-close="popup-5" onclick="call_menu(FILE, 'file_s1');" href="#"><img src="img/s1.jpg" alt="first image" width="200" height="200"/></a>
+  			 <a class="trn dots"  data-popup-close="popup-5" onclick="call_menu(FILE, 'file_s2');" href="#"><img src="img/s2.jpg" alt="second image" width="200" height="200"/></a>
+  			  <a class="trn dots"  data-popup-close="popup-5" onclick="call_menu(FILE, 'file_s3');" href="#"><img src="img/s3.jpg" alt="second image" width="200" height="200"/></a>
+  			   <a class="trn dots"  data-popup-close="popup-5" onclick="call_menu(FILE, 'file_s4');" href="#"><img src="img/s4.jpg" alt="second image" width="200" height="200"/></a>
+  			    <a class="trn dots"  data-popup-close="popup-5" onclick="call_menu(FILE, 'file_s5');" href="#"><img src="img/s5.jpg" alt="second image" width="200" height="200"/></a>
+  			     <a class="trn dots"  data-popup-close="popup-5" onclick="call_menu(FILE, 'file_s6');" href="#"><img src="img/s6.jpg" alt="second image" width="200" height="200"/></a>
+      </p>
+        <a class="popup-close" data-popup-close="popup-5" href="#">x</a>
+    </div>
+</div>
+
+<div class="popup" data-popup="popup-6">
+    <div class="popup-inner">
+    <a class="trn dots"  data-popup-close="popup-6" onclick="call_menu(FILE, 'file_f1');" href="#"><img src="img/f1.jpg" alt="first image" width="200" height="200"/></a>
+  			 <a class="trn dots"  data-popup-close="popup-6" onclick="call_menu(FILE, 'file_f2');" href="#"><img src="img/f2.jpg" alt="second image" width="200" height="200"/></a>
+  			  <a class="trn dots"  data-popup-close="popup-6" onclick="call_menu(FILE, 'file_f3');" href="#"><img src="img/f3.jpg" alt="second image" width="200" height="200"/></a>
+  			   <a class="trn dots"  data-popup-close="popup-6" onclick="call_menu(FILE, 'file_f4');" href="#"><img src="img/f4.jpg" alt="second image" width="200" height="200"/></a>
+  			    <a class="trn dots"  data-popup-close="popup-6" onclick="call_menu(FILE, 'file_f5');" href="#"><img src="img/f5.jpg" alt="second image" width="200" height="200"/></a>
+  			     <a class="trn dots"  data-popup-close="popup-6" onclick="call_menu(FILE, 'file_f6');" href="#"><img src="img/f6.jpg" alt="second image" width="200" height="200"/></a>
+      </p>
+        <a class="popup-close" data-popup-close="popup-6" href="#">x</a>
+    </div>
+</div>
+<div style="display:none;" id="tmp"></div>
+<div id="popup"></div>
+
+<script src="vendor/jquery/jquery.js"></script>
+<script src="vendor/jquery/jquery-migrate.js"></script>
+<script src="vendor/menu/menu.min.js"></script>
+<script src="vendor/imagefilters/imagefilters.min.js"></script>
+<script src="vendor/glfx/glfx.js"></script>
+<script src="vendor/exif/exif.min.js"></script>
+<script src="vendor/harmony/harmony.min.js"></script>
+<script src="libs/vintage.js"></script>
+<script src="libs/sift.js"></script>
+<script src="js/elements.js"></script>
+<script src="libs/helpers.js"></script>
+<script src="libs/popup.js"></script>
+<script src="vendor/file-saver/canvas-toBlob.js"></script>
+<script src="vendor/file-saver/FileSaver.min.js"></script>
+<script src="vendor/hqx/hqx.min.js"></script>
+<script src="vendor/translate/jquery.translate.min.js"></script>
+<script src="vendor/hermite-resize/hermite.js"></script>
+<script src="vendor/gif.js/dist/gif.js"></script>
+<script src="vendor/gif.js/dist/gif.worker.js"></script>
+
+<script src="languages/de.js"></script>
+<script src="languages/es.js"></script>
+<script src="languages/fr.js"></script>
+<script src="languages/it.js"></script>
+<script src="languages/ja.js"></script>
+<script src="languages/ko.js"></script>
+<script src="languages/lt.js"></script>
+<script src="languages/pt.js"></script>
+<script src="languages/ru.js"></script>
+<script src="languages/tr.js"></script>
+<script src="languages/zh.js"></script>
+
+<script src="js/file.js"></script>
+<script src="js/edit.js"></script>
+<script src="js/image.js"></script>
+<script src="js/layers.js"></script>
+<script src="js/effects.js"></script>
+<script src="js/tools.js"></script>
+<script src="js/draw_tools.js"></script>
+<script src="js/gui.js"></script>
+<script src="js/help.js"></script>
+<script src="js/events.js"></script>
+<script src="js/sample.js"></script>
+
+<script src="config.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

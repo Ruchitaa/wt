@@ -1,0 +1,1 @@
+var SAMPLE = new SAMPLE_CLASS();
